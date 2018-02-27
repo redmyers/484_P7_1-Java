@@ -13,6 +13,10 @@ import technology.tabula.ObjectExtractor;
 import technology.tabula.Page;
 import technology.tabula.Rectangle;
 import technology.tabula.TextElement;
+import java.text.SimpleDateFormat;	// added imports
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /*
  * RegexSearch
@@ -125,6 +129,26 @@ public class RegexSearch {
 	LinkedList<DetectionData> potentialMatches = new LinkedList<>();
 	potentialMatches.add(new DetectionData());
 
+	
+	// Logging Additions
+	Logger logger = Logger.getLogger("RegexSearch");
+	FileHandler fh;
+	String timeStamp = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
+	
+	try {
+        fh = new FileHandler("C:/tabula_logs/" + timeStamp + ".log");  
+        logger.addHandler(fh);
+        SimpleDateFormat formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);  
+  
+        logger.info("Document Processed: " + document.getDocumentInformation().getTitle());  
+    } catch (SecurityException e) {  
+        e.printStackTrace();  
+    } catch (IOException e) {  
+        e.printStackTrace();  
+    }   
+	
+	
 	for(Integer currentPage=1;currentPage<=totalPages;currentPage++) {
 		
 		/*
